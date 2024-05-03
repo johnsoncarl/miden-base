@@ -14,7 +14,7 @@ use super::{
     RecAdviceProvider, ScriptTarget, TransactionCompiler, TransactionExecutorError,
     TransactionHost,
 };
-use crate::host::TransactionAuthenticator;
+use crate::{host::TransactionAuthenticator, BasicAuthenticator};
 
 mod data_store;
 pub use data_store::DataStore;
@@ -78,6 +78,10 @@ impl<D: DataStore, A: TransactionAuthenticator> TransactionExecutor<D, A> {
         }
 
         self
+    }
+
+    pub fn set_authenticator(&mut self, authenticator: Option<Rc<A>>) {
+        self.authenticator = authenticator;
     }
 
     /// Enables tracing for the created instance of [TransactionExecutor].
